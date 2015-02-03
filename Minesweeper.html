@@ -40,7 +40,6 @@
       }
     }
   }
-
   function calculateSurroundingMines(coordinate1, coordinate2) {
     var numSurroundingMines = 0;
     for (i=coordinate1-1; i<=coordinate1+1; i++) {
@@ -53,13 +52,14 @@
     return numSurroundingMines;
   }
 
+  // Prompt user for dimensions and number of mines
   while (!numberOfRows || numberOfRows > 9 || numberOfRows < 2) {
     var numberOfRows = prompt("How many rows/columns? (2-9)")
   }
   while (!numberOfMines || numberOfMines > numberOfRows*numberOfRows-2) {
     var numberOfMines = prompt("How many mines? (2-".concat(numberOfRows*numberOfRows-2)+")");
   }
-
+  // Initialize constants and variables for later use
   var numberOfEmptyBoxes = numberOfRows*numberOfRows - numberOfMines;
   var boxList = [];
   var alreadyLost = false;
@@ -69,14 +69,13 @@
   for (var i=0; i<numberOfRows; i++) {
     for (var j=0; j<numberOfRows; j++) {
       $("body").append("<div class=\"divf\" id = \"box".concat(i).concat(j) + "\"></div>");
-      boxList.push("".concat(i).concat(j));
+      boxList.push("".concat(i).concat(j)); // Generate boxList array, for later use
     }
   }
   // Insert carriage returns to display
   for (var i=0; i<numberOfRows; i++) {
     $("#box".concat(i).concat(0)).css("clear","both");
   }
-
   // Generate unique mines and insert them into mineArray
   var mineArray = [];
   while (mineArray.length <= numberOfMines) {
@@ -113,7 +112,6 @@
       var coordinate2 = parseInt(this.id.substring(4,5));
       surroundingMines = calculateSurroundingMines(coordinate1, coordinate2);
       $(this).text(surroundingMines);
-
       // Go through all boxes, opening surrounding boxes for each "0"; repeat 10x
       for (var i=0; i<10; i++) {
         for (var h=0; h<boxList.length; h++) {
@@ -124,7 +122,6 @@
           }
         }
       }
-
       // Check to see if there are any mines left; if not, signal win screen by painting mines blue
       openedBoxes = 0;
       for (var h=0; h<boxList.length; h++) {
@@ -137,7 +134,6 @@
       if (openedBoxes == numberOfEmptyBoxes) {
         $(".mine").addClass("blue").text("").removeClass("white"); // $("#top").prepend("You win!");
       }
-
     }
   });
 </script>
