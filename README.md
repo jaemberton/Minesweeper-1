@@ -20,13 +20,13 @@ The implementation is as follows:
 
   ・A "mine" class is added to selected mine locations with a jQuery statement
 
-4. Implement functionality for when user selects a mine
+4. Implement functionality for when user selects a box
 
  ・If the user selects a box with "mine" class, color all mines red (signaling a loss)
  
  ・If the user selects a non-mine, calculate and display the number of adjacent mines
  
- ・If there are 0 adjacent mines, open up all surrounding boxes; this is done by iterating through all boxes of the page and clearing all necessary boxes each time a box is clicked
+ ・If there are 0 adjacent mines, open all surrounding boxes recursively by iterating through all boxes of the page 10 times and clearing all necessary boxes each time through
  
  ・After each click, check if there are any mines left; if not, color all mines blue (signaling a win)
 
@@ -46,6 +46,17 @@ The implementation is as follows:
   ・jQueryを使ってそれぞれのrow突き当たりのマスに「clear: both」を挿入
   
 3. ユーザーからもらったマイン数を使って、マインの場所を決める
-4. 
-4. 
-  ・ユーニークな
+
+ ・0〜マイン数からの乱数を何個計算することで実装する
+ 
+ ・jQueryでマインの場所に"mine"クラスを追加する
+ 
+4. マスが選ばれる時の機能を実装する
+
+ ・"mine"クラスが付いたマスが選択された場合、それぞれのマインを赤に染める（失敗を示す）
+ 
+ ・"mine"クラスが付いていないマスが選択された場合、隣接するマイン数を計算してユーザーに示す
+ 
+ ・隣接するマイン数が０の場合、隣接するマスを開く（ページ一面のマスが示している隣接するマイン数を１０回もチェックすることで、０に隣接するマスを再帰的に開ける）
+ 
+ ・クリックの後、マインが残っているかどうかチェックして、もう残っていない場合はそれぞれのマインを青に染める（勝ちを示す）
