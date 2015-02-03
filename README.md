@@ -20,7 +20,15 @@ The implementation is as follows:
 
   ・A "mine" class is added to selected mine locations with a jQuery statement
 
-4. 
+4. Implement functionality for when user selects a mine
+
+ ・If the user selects a box with "mine" class, color all mines red (signaling a loss)
+ 
+ ・If the user selects a non-mine, calculate and display the number of adjacent mines
+ 
+ ・If there are 0 adjacent mines, open up all surrounding boxes; this is done by iterating through all boxes of the page and clearing all necessary boxes each time a box is clicked
+ 
+ ・After each click, check if there are any mines left; if not, color all mines blue (signaling a win)
 
 # マインスイーパー
 このアプリはJS・jQueryだけで作られて、１５０行に限られた。
@@ -38,5 +46,6 @@ The implementation is as follows:
   ・jQueryを使ってそれぞれのrow突き当たりのマスに「clear: both」を挿入
   
 3. ユーザーからもらったマイン数を使って、マインの場所を決める
+4. 
 4. 
   ・ユーニークな
