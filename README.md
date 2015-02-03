@@ -3,8 +3,11 @@
 This Minesweeper program was written entirely in Javascript and jQuery and in its entirety comprises under 150 lines.
 
 The implementation is as follows:
+
 0. Define 2 functions, openSurroundingBoxes and calculateSurroundingMines, to be used later.
+ 
 1. Prompt user for the dimensions and number of mines with JavaScript alert functions
+
 2. Add boxes to container, each with id "boxij" (where i,j are coordinates)
   ・Implement with a nested for loop using the dimensions given by the user
   ・Insert carriage returns by adding "clear: both" to boxes at row ends using a jQuery statement
