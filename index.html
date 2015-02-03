@@ -1,0 +1,143 @@
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <style>
+    body {
+      text-align: center;
+    }
+    .divf {
+      background-color: grey;
+      height: 18px;
+      width: 18px;
+      display: block-inline;
+      float: left;
+      margin: 0px;
+      border: 1px solid black;
+    }
+    .red    { background-color: red }
+    .white  { background-color: white }
+    .blue   { background-color: blue }
+    #top    { text-align: left }
+  </style>
+</head>
+
+<body>
+    <p id="top">
+      <a href="./index.html">New Game</a>
+    </p>
+</body>
+
+<script>
+  function openSurroundingBoxes(coordinate1, coordinate2) {
+    for (m=-1; m<=1; m++) {
+      for (n=-1; n<=1; n++) {
+        var newcoordinate1 = coordinate1 + m;
+        var newcoordinate2 = coordinate2 + n;
+        if ($("#box".concat(newcoordinate1).concat(newcoordinate2)).text() == "") {
+          $("#box".concat(newcoordinate1).concat(newcoordinate2)).addClass("white");
+          numSurroundingMines = calculateSurroundingMines(newcoordinate1, newcoordinate2);
+          $("#box".concat(newcoordinate1).concat(newcoordinate2)).text(numSurroundingMines);
+        }
+      }
+    }
+  }
+
+  function calculateSurroundingMines(coordinate1, coordinate2) {
+    var numSurroundingMines = 0;
+    for (i=coordinate1-1; i<=coordinate1+1; i++) {
+      for (j=coordinate2-1; j<=coordinate2+1; j++) {
+        if ($("#box".concat(i).concat(j)).hasClass("mine")) {
+          numSurroundingMines++;
+        }
+      }
+    }
+    return numSurroundingMines;
+  }
+
+  while (!numberOfRows || numberOfRows > 9 || numberOfRows < 2) {
+    var numberOfRows = prompt("How many rows/columns? (2-9)")
+  }
+  while (!numberOfMines || numberOfMines > numberOfRows*numberOfRows-2) {
+    var numberOfMines = prompt("How many mines? (2-".concat(numberOfRows*numberOfRows-2)+")");
+  }
+
+  numberOfEmptyBoxes = numberOfRows*numberOfRows - numberOfMines;
+  boxList = [];
+  var alreadyLost = false;
+  var openedBoxes = 0;
+
+  // Add boxes to container, each with id "boxij", where i,j are coordinates
+  for (var i=0; i<numberOfRows; i++) {
+    for (var j=0; j<numberOfRows; j++) {
+      $("body").append("<div class=\"divf\" id = \"box".concat(i).concat(j) + "\"></div>");
+      boxList.push("".concat(i).concat(j));
+    }
+  }
+  // Insert carriage returns to display
+  for (var i=0; i<numberOfRows; i++) {
+    $("#box".concat(i).concat(0)).css("clear","both");
+  }
+
+  // Generate unique mines and insert them into mineArray
+  var mineArray = [];
+  while (mineArray.length <= numberOfMines) {
+    var randomNum = Math.floor(Math.random()*numberOfRows*numberOfRows);
+    var unique = true;
+    for (var i=0; i < mineArray.length; i++) {
+      if (mineArray[i] == randomNum) {
+        unique = false;
+        break;
+      }
+    }
+    if (unique) {
+      mineArray[mineArray.length] = randomNum;
+    }
+  }
+  // Add "mine" class to generated mines
+  for (var i=1; i<mineArray.length; i++) {
+    $("#box".concat(Math.floor(mineArray[i] / numberOfRows)).concat(mineArray[i] % numberOfRows)).addClass("mine");
+  }
+
+  $(".divf").on('click', function() {
+    // If the user selects a mine, exit game and make all boxes red.
+    if ($(this).hasClass("mine")) {
+      $(".mine").addClass("red");
+      if (!alreadyLost) {
+        alreadyLost = true; // $("top").prepend("You lose!");
+      }
+    }
+    // If the user selects a non-mine, calculate and display how many mines are nearby
+    else {
+      // Calculate and show the number of nearby mines
+      $(this).addClass("white");
+      var coordinate1 = parseInt(this.id.substring(3,4));
+      var coordinate2 = parseInt(this.id.substring(4,5));
+      surroundingMines = calculateSurroundingMines(coordinate1, coordinate2);
+      $(this).text(surroundingMines);
+
+      // Go through all boxes, opening surrounding boxes for each "0"; repeat 10x
+      for (var i=0; i<10; i++) {
+        for (var h=0; h<boxList.length; h++) {
+          b1 = parseInt(boxList[h].substring(0,1));
+          b2 = parseInt(boxList[h].substring(1,2));
+          if ($("#box".concat(b1).concat(b2)).text() == "0") {
+            openSurroundingBoxes(b1,b2);
+          }
+        }
+      }
+
+      // Check to see if there are any mines left; if not, signal win screen by painting mines blue
+      openedBoxes = 0;
+      for (var h=0; h<boxList.length; h++) {
+        b1 = parseInt(boxList[h].substring(0,1));
+        b2 = parseInt(boxList[h].substring(1,2));
+        if ($("#box".concat(b1).concat(b2)).hasClass("white")) {
+          openedBoxes++;
+        }
+      }
+      if (openedBoxes == numberOfEmptyBoxes) {
+        $(".mine").addClass("blue").text("").removeClass("white"); // $("#top").prepend("You win!");
+      }
+
+    }
+  });
+</script>
