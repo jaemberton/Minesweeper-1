@@ -60,8 +60,8 @@
     var numberOfMines = prompt("How many mines? (2-".concat(numberOfRows*numberOfRows-2)+")");
   }
 
-  numberOfEmptyBoxes = numberOfRows*numberOfRows - numberOfMines;
-  boxList = [];
+  var numberOfEmptyBoxes = numberOfRows*numberOfRows - numberOfMines;
+  var boxList = [];
   var alreadyLost = false;
   var openedBoxes = 0;
 
