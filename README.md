@@ -1,3 +1,34 @@
+# マインスイーパー
+このアプリはJS・jQueryで作られて、１５０行に限られた。
+
+実装は以下のとおり。
+
+0. 後で活用できるように、関数（openSurroundingBoxesとcalculateSurroundingMines）を定義する
+
+1. JSのalert関数を使い、マス数とマイン数をユーザーに問う
+
+2. マスを作成する。それぞれのマスは「boxij」というidを持たせる
+
+  ・forループとユーザーからもらったマス数を使って実装する
+  
+  ・jQueryでそれぞれの列突き当たりのマスに「clear: both」を適用
+  
+3. マイン数を使って、マインの場所を決める
+
+ ・0〜マイン数からの乱数を何個計算することで実装する
+ 
+ ・jQueryでマインの場所に"mine"クラスを追加する
+ 
+4. マスが選択された時の機能を実装する
+
+ ・"mine"クラスが付いたマスが選択された場合、ページ一面のマインを赤に染める（負けを示す）
+ 
+ ・"mine"クラスが付いていないマスが選択された場合、隣接するマイン数を計算して示す
+ 
+ ・隣接するマイン数が０の場合、隣接するマスも開く（ページ一面の開かれたマスの隣接するマイン数を１０回もチェックすることで、それぞれの０に隣接するマスを再帰的に開く）
+ 
+ ・クリック後、マインが残っているかどうかチェックして、残っていない場合はページ一面のマインを青に染める（勝ちを示す）
+
 # Minesweeper
 
 This Minesweeper program was written entirely in Javascript and jQuery and in its entirety comprises under 150 lines.
@@ -29,34 +60,3 @@ The implementation is as follows:
  ・If there are 0 adjacent mines, open all surrounding boxes recursively by iterating through all boxes of the page 10 times and clearing all necessary boxes each time through
  
  ・After each click, check if there are any mines left; if not, color all mines blue (signaling a win)
-
-# マインスイーパー
-このアプリはJS・jQueryだけで作られて、１５０行に限られた。
-
-実装は以下のとおり。
-
-0. 後で活用できるように、関数（openSurroundingBoxesとcalculateSurroundingMines）を定義する
-
-1. JSのalert関数を使い、マス数とマイン数をユーザーに問う
-
-2. マスを作成する。それぞれのマスは「boxij」というidを持たせる。
-
-  ・forループとユーザーからもらったマス数を使って実装する
-  
-  ・jQueryを使ってそれぞれのrow突き当たりのマスに「clear: both」を挿入
-  
-3. ユーザーからもらったマイン数を使って、マインの場所を決める
-
- ・0〜マイン数からの乱数を何個計算することで実装する
- 
- ・jQueryでマインの場所に"mine"クラスを追加する
- 
-4. マスが選ばれる時の機能を実装する
-
- ・"mine"クラスが付いたマスが選択された場合、それぞれのマインを赤に染める（失敗を示す）
- 
- ・"mine"クラスが付いていないマスが選択された場合、隣接するマイン数を計算してユーザーに示す
- 
- ・隣接するマイン数が０の場合、隣接するマスを開く（ページ一面のマスが示している隣接するマイン数を１０回もチェックすることで、０に隣接するマスを再帰的に開ける）
- 
- ・クリックの後、マインが残っているかどうかチェックして、もう残っていない場合はそれぞれのマインを青に染める（勝ちを示す）
